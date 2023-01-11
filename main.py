@@ -1,20 +1,37 @@
-from flask import Flask, render_template
-from flask_socketio import SocketIO, emit
+from flask import Flask, jsonify, request, render_template
+import json
+from datetime import datetime
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret!'
-socketio = SocketIO(app)
+app = Flask(__name__, static_url_path='/static', static_folder='static')
+
+# this is a list to store the chat messages
+messages = []
 
 
-@app.route('/')
+@app.route("/", methods=["GET"])
 def index():
-    return render_template('index.html')
+    return render_template("index.html")
 
 
-@socketio.on('message')
-def handle_message(message):
-    emit('message', message, broadcast=True)
+@app.route("/chat", methods=["GET"])
+def chat():
+    return render_template("chat.html")
+
+
+@ app.route('/chat/messages', methods=['GET'])
+def get_messages():
+    return jsonify(messages)
+
+
+@ app.route('/chat/messages', methods=['POST'])
+def add_message():
+    j = json.loads(request.get_data())
+    message = "[" + datetime.now().strftime("%H:%M:%S") + "] " + \
+        j["username"] + ":   " + j["message"]
+    messages.append(message)
+
+    return message
 
 
 if __name__ == '__main__':
-    socketio.run(app)
+    app.run(port=4015)

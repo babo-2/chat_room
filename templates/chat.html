@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chat App</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      body {
+        background-color: #333;
+        color: white;
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+      }
+
+      /* Make the messages container scrollable */
+      #messages {
+        flex-grow: 1;
+        overflow-y: auto;
+      }
+
+      /* Keep the input and button on the bottom of the page */
+      #form {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        display: flex;
+        align-items: center;
+      }
+
+      /* Make the input stretch to fill the available space */
+      #message {
+        flex-grow: 1;
+        padding: 10px;
+        font-size: 16px;
+      }
+
+      /* Add some style to the send button */
+      button[type="submit"] {
+        padding: 10px 20px;
+        background-color: #444;
+        color: white;
+        border: none;
+        font-size: 16px;
+      }
+      @media (max-width: 600px) {
+        /* Make the text in the messages bigger */
+        #messages {
+          font-size: 30px;
+        }
+        /* Make the text input larger */
+        #message {
+          font-size: 20px;
+        }
+        button[type="submit"] {
+          font-size: 20px;
+        }
+        #form {
+          font-size: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="messages"></div>
+
+    <form id="form">
+      <input type="text" id="message" placeholder="Enter your message" />
+      <button type="submit">Send</button>
+    </form>
+
+    <script>
+      username = prompt("enter username");
+      while (username == "") {
+        alert("Please enter your username");
+        username = prompt("enter username");
+      }
+      // retrieve messages from the backend when the page loads
+      $(document).ready(function () {
+        getMessages();
+      });
+
+      // handle the form submission
+      $("#form").submit(function (event) {
+        event.preventDefault();
+        var message = $("#message").val();
+        sendMessage(message);
+        $("#message").val("");
+      });
+
+      function getMessages() {
+        $.ajax({
+          type: "GET",
+          url: "/chat/messages",
+          success: function (messages) {
+            var messagesHtml = "";
+            for (var i = 0; i < messages.length; i++) {
+              messagesHtml += "<div>" + messages[i] + "</div>";
+            }
+            $("#messages").html(messagesHtml);
+          },
+        });
+      }
+
+      function sendMessage(message) {
+        if (message == "") {
+          getMessages();
+          return;
+        }
+        $.ajax({
+          type: "POST",
+          url: "/chat/messages",
+          contentType: "application/json",
+          data: JSON.stringify({ message: message, username: username }),
+          success: function (message_return) {
+            $("#messages").append("<div>" + message_return + "</div>");
+          },
+        });
+      }
+    </script>
+  </body>
+</html>

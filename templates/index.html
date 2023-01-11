@@ -1,25 +1,99 @@
 <html>
-<head>
-  <title>Chat</title>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
-</head>
-<body>
-  <form onsubmit="submitMessage(); return false;">
-    <input id="message" type="text">
-    <input type="submit" value="Send">
-  </form>
-  <ul id="messages"></ul>
-  <script>
-    var socket = io.connect('http://' + document.domain + ':' + location.port);
-    socket.on('message', function(msg) {
-      $('#messages').append($('<li>').text(msg));
-    });
-    function submitMessage() {
-      var message = $('#message').val();
-      socket.emit('message', message);
-      $('#message').val('');
-    }
-  </script>
-</body>
+  <head>
+    <style>
+      /* Add some basic styling for the webpage */
+      body {
+        background-color: white;
+        text-align: center;
+      }
+      /* Add a class for the circular image */
+      .circular-image {
+        width: 200px;
+        height: 200px;
+        border-radius: 100px; /* Make the image circular */
+        margin: 0 auto; /* Center the image on the page */
+      }
+      .menu-button {
+        float: right;
+        cursor: pointer;
+        padding: 0.5em;
+      }
+
+      /* Add some styling for the menu */
+      .menu {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 3em;
+        background-color: white;
+        padding: 1em;
+      }
+
+      /* Show the menu when the menu button is clicked */
+      .menu-button:hover + .menu {
+        display: block;
+      }
+      #description {
+        font-size: 30px;
+      }
+      #text {
+        color: black;
+      }
+    </style>
+  </head>
+  <body id="body">
+    <div class="menu-button">
+      <!-- Add the three bars for the menu button -->
+      <div
+        style="
+          width: 1em;
+          height: 0.15em;
+          background-color: black;
+          margin: 0.2em;
+        "
+      ></div>
+      <div
+        style="
+          width: 1em;
+          height: 0.15em;
+          background-color: black;
+          margin: 0.2em;
+        "
+      ></div>
+      <div
+        style="
+          width: 1em;
+          height: 0.15em;
+          background-color: black;
+          margin: 0.2em;
+        "
+      ></div>
+    </div>
+
+    <div class="menu">
+      <a href="#">Link 1</a>
+      <a href="#">Link 2</a>
+      <a href="#">Link 3</a>
+    </div>
+    <img src="static/Minecraft.png" class="circular-image" , alt="image" />
+    <p id="description">
+      This is my decription
+      <button id="color_button" onclick="change_color()">Dark Mode</button>
+      <script>
+        function change_color() {
+          if (
+            document.getElementById("color_button").innerHTML == "Dark Mode"
+          ) {
+            document.getElementById("body").style.backgroundColor = "black";
+            document.getElementById("description").style.color = "white";
+            document.getElementById("color_button").innerHTML = "White Mode";
+          } else {
+            document.getElementById("body").style.backgroundColor = "white";
+            document.getElementById("description").style.color = "black";
+            document.getElementById("color_button").innerHTML = "Dark Mode";
+          }
+        }
+      </script>
+    </p>
+  </body>
 </html>
