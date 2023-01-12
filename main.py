@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, render_template
 import json
 from datetime import datetime
+import os
 
 app = Flask(__name__, static_url_path='/static', static_folder='static')
 
@@ -34,5 +35,4 @@ def add_message():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=80)
-    
+    app.run(debug=True, port=os.getenv("PORT", default=5000))
