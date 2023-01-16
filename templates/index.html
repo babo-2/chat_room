@@ -28,6 +28,13 @@
         background-color: white;
         padding: 1em;
       }
+       ul {
+        top:400px;
+        list-style:none;
+        margin:0;
+        font-size:110%;
+        padding-top:100px;
+      }
 
       /* Show the menu when the menu button is clicked */
       .menu-button:hover + .menu {
@@ -42,42 +49,12 @@
     </style>
   </head>
   <body id="body">
-    <div class="menu-button">
-      <!-- Add the three bars for the menu button -->
-      <div
-        style="
-          width: 1em;
-          height: 0.15em;
-          background-color: black;
-          margin: 0.2em;
-        "
-      ></div>
-      <div
-        style="
-          width: 1em;
-          height: 0.15em;
-          background-color: black;
-          margin: 0.2em;
-        "
-      ></div>
-      <div
-        style="
-          width: 1em;
-          height: 0.15em;
-          background-color: black;
-          margin: 0.2em;
-        "
-      ></div>
-    </div>
+  
 
-    <div class="menu">
-      <a href="#">Link 1</a>
-      <a href="#">Link 2</a>
-      <a href="#">Link 3</a>
-    </div>
+	
     <img src="static/Minecraft.png" class="circular-image" , alt="image" />
     <p id="description">
-      This is my decription
+      This is my description</p>
       <button id="color_button" onclick="change_color()">Dark Mode</button>
       <script>
         function change_color() {
@@ -94,6 +71,9 @@
           }
         }
       </script>
-    </p>
+    
+       <ul>
+   	<a id="list" href="/chat">chat</a>
+  </ul>
   </body>
 </html>
